@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Adoption Hub</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      color: #1a1a1a;
+      overflow-x: hidden;
+    }
+
+    .background {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background-image: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .background::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-button {
+      background: rgba(255, 255, 255, 0.9);
+      color: #0d9488;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .nav-button:hover {
+      background: #f0fdfa;
+      transform: translateY(-2px);
+    }
+
+    .nav-button.active {
+      background: #0d9488;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .section {
+      display: none;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .content-card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #ef4444;
+      color: white;
+      border: none;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .close-button:hover {
+      background: #dc2626;
+    }
+
+    .section-title {
+      color: #0d9488;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      padding-right: 2.5rem;
+    }
+
+    .pet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .pet-card {
+      background: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .pet-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .pet-info {
+      padding: 1.5rem;
+    }
+
+    .pet-name {
+      color: #0d9488;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .adopt-button {
+      width: 100%;
+      background: #0d9488;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: background 0.2s;
+    }
+
+    .adopt-button:hover {
+      background: #0f766e;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      color: #1a1a1a;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 0.75rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: 2px solid #0d9488;
+      border-color: transparent;
+    }
+
+    .submit-button {
+      background: #0d9488;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .submit-button:hover {
+      background: #0f766e;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #1a1a1a;
+    }
+
+    .contact-icon {
+      color: #0d9488;
+      font-size: 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        padding: 0 2rem;
+      }
+
+      .section {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+
+  <header>
+    <h1>🐾 Forever Home Finder 🐾</h1>
+    <nav>
+      <button class="nav-button active" data-section="home">🏠 Home</button>
+      <button class="nav-button" data-section="report">📝 Report</button>
+      <button class="nav-button" data-section="adopt">🐾 Adopt</button>
+      <button class="nav-button" data-section="contact">📞 Contact</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="section active">
+      <div class="content-card">
+        <button class="close-button" onclick="closeSection('home')">✕</button>
+        <h2 class="section-title">Welcome to Pet Adoption Hub</h2>
+        <p>At Pet Adoption Hub, we believe every pet deserves a loving home. Our mission is to connect pets in need with caring families and individuals who can provide them with the love and care they deserve.</p>
+        <br>
+        <h3 style="color: #0d9488; font-size: 1.5rem; margin-bottom: 1rem;">Why Pets Are Important 🐕🐈</h3>
+        <p>Pets bring joy, companionship, and countless benefits to our lives. They provide unconditional love, reduce stress, and encourage a healthy lifestyle.</p>
+      </div>
+    </section>
+
+    <section id="report" class="section">
+      <div class="content-card">
+        <button class="close-button" onclick="closeSection('report')">✕</button>
+        <h2 class="section-title">Report a Found Pet</h2>
+        <form id="reportForm">
+          <div class="form-group">
+            <label>Pet Type</label>
+            <input type="text" placeholder="Dog, Cat, etc." required>
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" placeholder="Where did you find the pet?" required>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea rows="4" placeholder="Describe the pet..."></textarea>
+          </div>
+          <button type="submit" class="submit-button">Submit Report</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="adopt" class="section">
+      <div class="content-card">
+        <button class="close-button" onclick="closeSection('adopt')">✕</button>
+        <h2 class="section-title">Available Pets</h2>
+        <div class="pet-grid">
+          <div class="pet-card">
+            <img src="https://tse2.mm.bing.net/th?id=OIP.fvtIJzw47q-cGfY_blk-0gHaFj&pid=Api&P=0&h=180" alt="Buddy">
+            <div class="pet-info">
+              <h3 class="pet-name">Buddy</h3>
+              <p>Age: 2 years</p>
+              <button class="adopt-button" onclick="adoptPet('Buddy')">Adopt Buddy</button>
+            </div>
+          </div>
+          <div class="pet-card">
+            <img src="https://res.cloudinary.com/petrescue/image/upload/c_crop,g_custom/v1598315017/ul4uxmbk6nzyg0662920.jpg" alt="Luna">
+            <div class="pet-info">
+              <h3 class="pet-name">Luna</h3>
+              <p>Age: 1 year</p>
+              <button class="adopt-button" onclick="adoptPet('Luna')">Adopt Luna</button>
+            </div>
+          </div>
+          <div class="pet-card">
+            <img src="https://i.ytimg.com/vi/Atn7wC8uS8w/maxresdefault.jpg" alt="Max">
+            <div class="pet-info">
+              <h3 class="pet-name">Max</h3>
+              <p>Age: 3 years</p>
+              <button class="adopt-button" onclick="adoptPet('Max')">Adopt Max</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="content-card">
+        <button class="close-button" onclick="closeSection('contact')">✕</button>
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <span class="contact-icon">📞</span>
+            <span>+91 8639421900</span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📧</span>
+            <span>rajoliteja2005@gmail.com</span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📍</span>
+            <span>Mangalagiri, Amaravathi, AP, India</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const navButtons = document.querySelectorAll('.nav-button');
+    const sections = document.querySelectorAll('.section');
+
+    navButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const sectionId = button.getAttribute('data-section');
+        // Remove active class from all sections and buttons
+        sections.forEach(section => section.classList.remove('active'));
+        navButtons.forEach(btn => btn.classList.remove('active'));
+        // Activate the clicked button and corresponding section
+        button.classList.add('active');
+        document.getElementById(sectionId).classList.add('active');
+      });
+    });
+
+    function closeSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      const navButton = document.querySelector(`[data-section="${sectionId}"]`);
+      section.classList.remove('active');
+      navButton.classList.remove('active');
+      // No section is automatically re-opened after closing, even for Home
+    }
+
+    document.getElementById('reportForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert("Thank you for reporting! 🐾\n\nWe'll get back to you soon. Please visit our website again to check for updates or to help more pets in need!");
+      e.target.reset();
+    });
+
+    function adoptPet(petName) {
+      alert(`Thank you for choosing to adopt ${petName}! 🐾\n\nWe will contact you shortly to complete the adoption process.`);
+    }
+  </script>
+</body>
+</html>
