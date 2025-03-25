@@ -46,7 +46,7 @@ A beautiful and responsive web application designed to connect pets with their f
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/forever-home-finder.git
+   git clone https://github.com/rajoli-teja/forever-home-finder.git
    ```
 
 2. Open `index.html` in your browser
@@ -67,13 +67,13 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
 
 ## 📞 Contact
 
 Your Name - [rajoli-teja]
 
-Project Link: [https://github.com/yourusername/forever-home-finder](https://github.com/yourusername/forever-home-finder)
+Project Link: [https://github.com/rajoli-teja/forever-home-finder](https://github.com/rajoli-teja/forever-home-finder)
 
 ## 🙏 Acknowledgments
 
@@ -83,4 +83,4 @@ Project Link: [https://github.com/yourusername/forever-home-finder](https://gith
 
 ---
 
-Made with ❤️ for pets and their future safe.
+Made with ❤️ for pets and their future families
